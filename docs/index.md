@@ -12,7 +12,7 @@ To get started, download the [Premade PHP Functions Package](https://www.johnodo
 
 # Usage
 
-Examples of functions ar
+Examples of functions are on the [Johnodon website](https://www.johnodon.com/pmpf/). Once you have unzipped the folder and included it on your page, you are ready to use it. 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTk2OTAxNDg2Nl19
+eyJoaXN0b3J5IjpbLTE2MjcyOTAwOTNdfQ==
 -->
