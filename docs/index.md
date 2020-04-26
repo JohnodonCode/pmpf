@@ -13,8 +13,10 @@ To get started, download the [Premade PHP Functions Package](https://www.johnodo
 # Usage
 
 Examples of functions are on the [Johnodon website](https://www.johnodon.com/pmpf/). Once you have unzipped the folder and included it on your page, you are ready to use it.
+
+
 # Functions
 A list of all functions and how to use them can be found on the [Functions](https://pmpfdocs.johnodon.com/en/latest/functions/) page.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTA1OTg3MzQ5MF19
+eyJoaXN0b3J5IjpbMzUxOTM1NzkwLDEwNTk4NzM0OTBdfQ==
 -->
