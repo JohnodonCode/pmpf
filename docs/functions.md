@@ -46,14 +46,12 @@ Creates an HTML file with what you inputted (do not echo this function)
 Input: "Johnodon SimpleHTML Test", "`<p>Hello World!</p>`"
 Output:  [Click me](https://www.johnodon.com/pmpf/examples/simpleHTML.php)
 
-**  
-styledHTML (StyledHTML(title, content, style)):**
-
+**styledHTML (StyledHTML(title, content, style)):**
 Creates an HTML file with what you inputted with a stylesheet (do not echo this function)
-
 Input: "Johnodon StyledHTML Test", "`<p>Hello World!</p>`", "body {background-color: black;} p {color:white;}"
-
 Output:  [Click me](https://www.johnodon.com/pmpf/examples/styledHTML.php)
+
+**Copyright © 2020 Johnodon. All Rights Reserved.**
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2NzgzMDIwMSw2MDk0MTA3MTRdfQ==
+eyJoaXN0b3J5IjpbOTcxNzgwODc2LDYwOTQxMDcxNF19
 -->
