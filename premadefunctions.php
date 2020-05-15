@@ -83,7 +83,6 @@ function simpleHTML($title, $content) {
 			".$content."
 		</body>
 	</html>
-
 	";
 }
 function styledHTML($title, $content, $style) {
@@ -102,63 +101,14 @@ function styledHTML($title, $content, $style) {
 			".$content."
 		</body>
 	</html>
-
 	";
 }
 
 // Credit to dzone.com for the below functions:
-function detect_city($ip) {
-        
-        $default = 'UNKNOWN';
-
-        if (!is_string($ip) || strlen($ip) < 1 || $ip == '127.0.0.1' || $ip == 'localhost')
-            $ip = '8.8.8.8';
-
-        $curlopt_useragent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2) Gecko/20100115 Firefox/3.6 (.NET CLR 3.5.30729)';
-        
-        $url = 'http://ipinfodb.com/ip_locator.php?ip=' . urlencode($ip);
-        $ch = curl_init();
-        
-        $curl_opt = array(
-            CURLOPT_FOLLOWLOCATION  => 1,
-            CURLOPT_HEADER      => 0,
-            CURLOPT_RETURNTRANSFER  => 1,
-            CURLOPT_USERAGENT   => $curlopt_useragent,
-            CURLOPT_URL       => $url,
-            CURLOPT_TIMEOUT         => 1,
-            CURLOPT_REFERER         => 'http://' . $_SERVER['HTTP_HOST'],
-        );
-        
-        curl_setopt_array($ch, $curl_opt);
-        
-        $content = curl_exec($ch);
-        
-        if (!is_null($curl_info)) {
-            $curl_info = curl_getinfo($ch);
-        }
-        
-        curl_close($ch);
-        
-        if ( preg_match('{<li>City : ([^<]*)</li>}i', $content, $regs) )  {
-            $city = $regs[1];
-        }
-        if ( preg_match('{<li>State/Province : ([^<]*)</li>}i', $content, $regs) )  {
-            $state = $regs[1];
-        }
-
-        if( $city!='' && $state!='' ){
-          $location = $city . ', ' . $state;
-          return $location;
-        }else{
-          return $default; 
-        }
-        
-    }
 function source_code($site) {
 	$lines = file($site);
 	foreach ($lines as $line_num => $line) { 
-	// loop thru each line and prepend line numbers
-	return "Line #<b>{$line_num}</b> : " . htmlspecialchars($line) . "<br>\n";
+	return htmlspecialchars($line);
 	}
 }
 function ssl_check() {
@@ -168,100 +118,14 @@ function ssl_check() {
 		echo "SSL is enabled.";
 	}
 }
-function fb_fan_count($facebook_name){
-    $data = json_decode(file_get_contents("https://graph.facebook.com/".$facebook_name));
-    echo $data->likes;
-}
 function memory_usage() {
-	echo "Initial: ".memory_get_usage()." bytes \n";
+	echo "Initial: ".memory_get_usage()." bytes <br />";
 	for ($i = 0; $i < 100000; $i++) {
 		$array []= md5($i);
 	}
-	// let's remove half of the array
 	for ($i = 0; $i < 100000; $i++) {
 		unset($array[$i]);
 	}
-	echo "Final: ".memory_get_usage()." bytes \n";
-	echo "Peak: ".memory_get_peak_usage()." bytes \n";
-}
-function whois_query($domain) {
- 
-    // fix the domain name:
-    $domain = strtolower(trim($domain));
-    $domain = preg_replace('/^http:\/\//i', '', $domain);
-    $domain = preg_replace('/^www\./i', '', $domain);
-    $domain = explode('/', $domain);
-    $domain = trim($domain[0]);
- 
-    // split the TLD from domain name
-    $_domain = explode('.', $domain);
-    $lst = count($_domain)-1;
-    $ext = $_domain[$lst];
- 
-    // You find resources and lists 
-    // like these on wikipedia: 
-    //
-    // http://de.wikipedia.org/wiki/Whois
-    //
-    $servers = array(
-        "biz" => "whois.neulevel.biz",
-        "com" => "whois.internic.net",
-        "us" => "whois.nic.us",
-        "coop" => "whois.nic.coop",
-        "info" => "whois.nic.info",
-        "name" => "whois.nic.name",
-        "net" => "whois.internic.net",
-        "gov" => "whois.nic.gov",
-        "edu" => "whois.internic.net",
-        "mil" => "rs.internic.net",
-        "int" => "whois.iana.org",
-        "ac" => "whois.nic.ac",
-        "ae" => "whois.uaenic.ae",
-        "at" => "whois.ripe.net",
-        "au" => "whois.aunic.net",
-        "be" => "whois.dns.be",
-        "bg" => "whois.ripe.net",
-        "br" => "whois.registro.br",
-        "bz" => "whois.belizenic.bz",
-        "ca" => "whois.cira.ca",
-        "cc" => "whois.nic.cc",
-        "ch" => "whois.nic.ch",
-        "cl" => "whois.nic.cl",
-        "cn" => "whois.cnnic.net.cn",
-        "cz" => "whois.nic.cz",
-        "de" => "whois.nic.de",
-        "fr" => "whois.nic.fr",
-        "hu" => "whois.nic.hu",
-        "ie" => "whois.domainregistry.ie",
-        "il" => "whois.isoc.org.il",
-        "in" => "whois.ncst.ernet.in",
-        "ir" => "whois.nic.ir",
-        "mc" => "whois.ripe.net",
-        "to" => "whois.tonic.to",
-        "tv" => "whois.tv",
-        "ru" => "whois.ripn.net",
-        "org" => "whois.pir.org",
-        "aero" => "whois.information.aero",
-        "nl" => "whois.domain-registry.nl"
-    );
- 
-    if (!isset($servers[$ext])){
-        die('Error: No matching nic server found!');
-    }
- 
-    $nic_server = $servers[$ext];
- 
-    $output = '';
- 
-    // connect to whois server:
-    if ($conn = fsockopen ($nic_server, 43)) {
-        fputs($conn, $domain."\r\n");
-        while(!feof($conn)) {
-            $output .= fgets($conn,128);
-        }
-        fclose($conn);
-    }
-    else { die('Error: Could not connect to ' . $nic_server . '!'); }
- 
-    return $output;
+	echo "Final: ".memory_get_usage()." bytes <br />";
+	echo "Peak: ".memory_get_peak_usage()." bytes <br />";
 }
