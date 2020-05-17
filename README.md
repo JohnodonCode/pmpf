@@ -2,7 +2,7 @@
 Pre-made PHP Functions because PHP doesnt have everything it SHOULD have
 
 Copyright (c) 2020 Johnodon
-Version 1.0.3
+Version 1.0.4
 
 
 Examples for some functions are located in \examples\.
