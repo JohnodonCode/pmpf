@@ -127,7 +127,8 @@ function memory_usage() {
 	echo "Final: ".memory_get_usage()." bytes <br />";
 	echo "Peak: ".memory_get_peak_usage()." bytes <br />";
 }
-function discordOauth($client_id, $client_secret, $redirect_uri, $permissions) {
+function discordOauth($client_id, $client_secret, $permissions) {
+	$redirect_uri = full_url();
 	session_start();
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
@@ -142,25 +143,17 @@ function discordOauth($client_id, $client_secret, $redirect_uri, $permissions) {
 	$apiURLBase = 'https://discordapp.com/api/users/@me';
 	if(isset($_GET['action'])) {
 	if($_GET['action'] == 'login') {
-
 		$params = array(
 		  'client_id' => OAUTH2_CLIENT_ID,
 		  'redirect_uri' => $redirect_uri,
 		  'response_type' => 'code',
 		  'scope' => $permissions
 		);
-	  
-		// Redirect the user to Discord's authorization page
 		header('Location: https://discordapp.com/api/oauth2/authorize' . '?' . http_build_query($params));
 		die();
 	  }
 	}
-	  
-	  
-	  // When Discord redirects the user back here, there will be a "code" and "state" parameter in the query string
 	  if(isset($_GET['code'])) {
-	  
-		// Exchange the auth code for a token
 		$token = apiRequest($tokenURL, array(
 		  "grant_type" => "authorization_code",
 		  'client_id' => OAUTH2_CLIENT_ID,
@@ -168,27 +161,20 @@ function discordOauth($client_id, $client_secret, $redirect_uri, $permissions) {
 		  'redirect_uri' => $redirect_uri,
 		  'code' => get('code')
 		));
-	  
-	  
 		$logout_token = $token->access_token;
 		$_SESSION['access_token'] = $token->access_token;
-	  
-	  
 		header('Location: ' . $_SERVER['PHP_SELF']);
 	  }
 	  if (isset($_GET['error'])) {
 		return "User denied the request.";
 	  } else {
 	  if(session('access_token')) {
-		
 		$user = apiRequest($apiURLBase);
-	  
 		return $user;
-	  
-	  }}
-	  
+	  }}	  
 }
 function apiRequest($url, $post=FALSE, $headers=array()) {
+	// This function is for the discordOauth() function, so it is not included in the documentation.
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -211,9 +197,33 @@ function apiRequest($url, $post=FALSE, $headers=array()) {
   }
   
   function get($key, $default=NULL) {
+	// This function is for the discordOauth() function, so it is not included in the documentation.
 	return array_key_exists($key, $_GET) ? $_GET[$key] : $default;
   }
   
   function session($key, $default=NULL) {
+	// This function is for the discordOauth() function, so it is not included in the documentation.
 	return array_key_exists($key, $_SESSION) ? $_SESSION[$key] : $default;
   }
+  function full_url() {
+	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') 
+	$link = "https"; 
+	else
+		$link = "http"; 
+	$link .= "://"; 
+	$link .= $_SERVER['HTTP_HOST']; 
+	$link .= $_SERVER['REQUEST_URI']; 
+	$link = substr($link, 0, strpos($link, "?"));
+	return $link;
+  }
+  function startsWith ($string, $startString) { 
+    $len = strlen($startString); 
+    return (substr($string, 0, $len) === $startString); 
+  }
+  function endsWith($string, $endString) { 
+    $len = strlen($endString); 
+    if ($len == 0) { 
+        return true; 
+    } 
+    return (substr($string, -$len) === $endString); 
+  } 
