@@ -1,33 +1,21 @@
 <?php
 function sth($init) {
-
 	$hours = floor($init / 3600);
 	$minutes = floor(($init / 60) % 60);
 	$seconds = $init % 60;
-
-
 	return sprintf("%02d", $hours);
-
 }
 function sthm($init) {
-
 	$hours = floor($init / 3600);
 	$minutes = floor(($init / 60) % 60);
 	$seconds = $init % 60;
-
-
 	return sprintf("%02d:%02d", $hours, $minutes);
-
 }
 function sthms($init) {
-
 	$hours = floor($init / 3600);
 	$minutes = floor(($init / 60) % 60);
 	$seconds = $init % 60;
-
-
 	return sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
-
 }
 function download($download)
 {
@@ -66,7 +54,6 @@ function getcloudflareip() {
 	if(filter_var($client, FILTER_VALIDATE_IP)) { $ip = $client; }
 	elseif(filter_var($forward, FILTER_VALIDATE_IP)) { $ip = $forward; }
 	else { $ip = $remote; }
-
 	return $ip;
 }
 function simpleHTML($title, $content) {
@@ -130,14 +117,10 @@ function memory_usage() {
 function discordOauth($client_id, $client_secret, $permissions) {
 	$redirect_uri = full_url();
 	session_start();
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	ini_set('max_execution_time', 300); //300 seconds = 5 minutes. In case if your CURL is slow and is loading too much (Can be IPv6 problem)
+	ini_set('max_execution_time', 300);
 	error_reporting(E_ALL);
-
 	define('OAUTH2_CLIENT_ID', $client_id);
 	define('OAUTH2_CLIENT_SECRET', $client_secret);
-
 	$authorizeURL = 'https://discordapp.com/api/oauth2/authorize?client_id=656990364762243103&redirect_uri='.$redirect_uri.'&response_type=code&scope='.$permissions.'';
 	$tokenURL = 'https://discordapp.com/api/oauth2/token';
 	$apiURLBase = 'https://discordapp.com/api/users/@me';
@@ -178,29 +161,20 @@ function apiRequest($url, $post=FALSE, $headers=array()) {
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-  
 	$response = curl_exec($ch);
-  
-  
 	if($post)
 	  curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
-  
 	$headers[] = 'Accept: application/json';
-  
 	if(session('access_token'))
 	  $headers[] = 'Authorization: Bearer ' . session('access_token');
-  
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-  
 	$response = curl_exec($ch);
 	return json_decode($response);
   }
-  
   function get($key, $default=NULL) {
 	// This function is for the discordOauth() function, so it is not included in the documentation.
 	return array_key_exists($key, $_GET) ? $_GET[$key] : $default;
   }
-  
   function session($key, $default=NULL) {
 	// This function is for the discordOauth() function, so it is not included in the documentation.
 	return array_key_exists($key, $_SESSION) ? $_SESSION[$key] : $default;
