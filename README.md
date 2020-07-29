@@ -6,9 +6,6 @@ Version 1.0.5
 
 To use these functions, you must have at least PHP version 5.6 installed on a webserver.
 
-To check if your current PMPF version is up to date, navigate to https://www.johnodon.com/uc/pmpf/check on a web browser and enter your version number found at the top of this file.
-
-
 # Downloading
-To download, visit https://pmpf.johnodon.com and click **Download** on the main page.
+To download, clone this repository and include the `premadefunctions.php` file at the top of whatever PHP page you are using the library on
 
