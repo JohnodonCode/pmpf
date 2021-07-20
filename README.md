@@ -1,6 +1,8 @@
 # Pre-made PHP Functions
 Pre-made PHP Functions because PHP doesnt have everything it SHOULD have
 
+ARCHIVED PROJECT: This project will no longer be maintained or receive updates.
+
 Copyright (c) 2020 Johnodon
 Version 1.0.5
 
